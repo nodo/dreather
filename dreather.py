@@ -4,6 +4,7 @@ from random import shuffle
 import requests
 import bottle.ext.sqlite
 import simplejson as json
+import sqlite3
 
 app = bottle.Bottle()
 plugin = bottle.ext.sqlite.Plugin(dbfile='dreather.db')
@@ -18,6 +19,15 @@ def server_static(filepath):
 @app.route('/')
 def index():
     return bottle.static_file('index.html', root='client')
+
+@app.route('/pump_it_up/<id>')
+def pump_it_up(id, db):
+    try:
+        db.execute( 'UPDATE cocktails\
+                     SET rank=rank+1\
+                     WHERE id=?', id)
+    except sqlite3.ProgrammingError:
+        pass
 
 
 @app.route('/gimme_drink/<lat>/<lon>')
