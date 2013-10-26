@@ -1,6 +1,6 @@
 import bottle
 from settings import *
-from random import shuffle
+import random
 import requests
 import bottle.ext.sqlite
 import simplejson as json
@@ -29,6 +29,29 @@ def pump_it_up(id, db):
     except sqlite3.ProgrammingError:
         pass
 
+def random_dist(cocktails):
+    """Shuffle cocktails taking into account weights"""
+    random.shuffle(cocktails)
+    shuffled_cocktails = []
+    for i in range(len(cocktails)):
+        total = float(sum(int(cocktail["rank"]) for cocktail in cocktails))
+        #force probability to be at least 0.1, right way to do it
+        #minimum_rank = min(int(cocktail["rank"]) for cocktail in cocktails)
+        #magic_number = float((total-10*minimum_rank) / (10-len(cocktails)))
+        #force a minimum probability, safe way to do it ;-)
+        magic_number = 5
+        total += len(cocktails) * magic_number
+
+        rand = random.randint(0,total)
+        tot = 0
+        for j in range(len(cocktails)):
+            cocktail = cocktails[j]
+            tot += int(cocktail["rank"])+magic_number
+            if tot>=rand:
+                shuffled_cocktails.append(cocktail)
+                cocktails.remove(cocktail)
+                break
+    return shuffled_cocktails
 
 @app.route('/gimme_drink/<lat>/<lon>')
 def gimme_drink(lat, lon, db):
@@ -73,7 +96,7 @@ def gimme_drink(lat, lon, db):
         ).fetchall()
 
     result = map(dict, cocktails)
-    shuffle(result)
+    result = random_dist(result)
 
     bottle.response.content_type = 'application/json'
     return json.dumps({ "cocktails" : result,
