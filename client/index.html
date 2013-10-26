@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dreather, drinks for the weather!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='utf-8'>
+    <!-- Bootstrap -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="bower_components/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Raleway|Lobster:400,600" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="bower_components/bootstrap/assets/js/html5shiv.js"></script>
+      <script src="bower_components/bootstrap/assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+      html {
+        background: url(http://st3.flashrolls.net/wallpaper/757/b14b21a5eae2607f6887c3283d069c31.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+
+      body {
+        padding-top: 60px;
+        font-size: 20px;
+        font-family: "Raleway", Arial, sans-serif;
+        background: transparent;
+      }
+
+      h2, h3, h4 {
+        font-family: "Raleway", Arial, sans-serif;
+      }
+
+      h1 {
+        font-family: "Lobster", Arial, sans-serif;
+        font-weight: 400;
+        font-size: 60px;
+      }
+
+      .drink-name {
+        font-size: 60px;
+      }
+
+      .panel {
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+
+      .margin-base-vertical {
+        margin: 40px 0;
+      }
+
+      .margin-top-vertical {
+        margin: 20px 0 0 0;
+      }
+
+      .margin-top-vertical-mini {
+        margin: 10px 0 0 0;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .rotate20 {
+        transform: rotate(20deg);
+        -ms-transform: rotate(20deg); /* IE 9 */
+        -webkit-transform: rotate(20deg);
+      }
+
+      #suggest-drink {
+        min-height: 400px;
+      }
+
+      hr.hipster-hr {
+        border: 0;
+        height: 1px;
+        background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+        background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+        background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+        background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 panel panel-default">
+          <h1 class="margin-base-vertical text-center">
+            Dreather <i class="fa fa-glass rotate20"></i>
+            <p class="lead text-center">drinks for the weather!</p>
+          </h1>
+
+          <hr class="hipster-hr">
+
+          <div id="suggest-drink" class="margin-base-vertical">
+          </div>
+
+          <div class="margin-base-vertical">
+            <small class="text-muted">Built with ♡ in Berlin in 24 hours, during the TechCrunch Disrupt 2013. Cocktails' data is kindly offered by Wikipedia. By @nodo, @pollo, @thomas and @volpino</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/template" id="drink-template">
+      <h3 class="text-center">Ehi, it's a bit cold in here! Cheer you up with a...</h3>
+      <h2 class="text-center drink-name margin-base-vertical">Gin Tonic</h2>
+
+      <div class="row">
+        <div class="col-md-3 col-md-offset-1">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Beverage_Glass_%28Tumbler%29.svg" style="height: 200px">
+        </div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-4">
+              Just mix:
+              <ul>
+                <li>Gin</li>
+                <li>Tonic</li>
+                <li>Lime</li>
+              </ul>
+            </div>
+            <div class="col-md-8">
+              Serve it:
+              <ul>
+                <li>on the rocks</li>
+                <li>with a slice or wedge of lime</li>
+                <li>in a highball glass or rocks glass</li>
+              </ul>
+            </div>
+          </div>
+          <p class="margin-top-vertical-mini">In a glass filled with ice cubes, add gin and tonic.</p>
+        </div>
+      </div>
+
+      <div class="pull-right margin-top-vertical">
+        <button id="another-drink" type="button" class="btn btn-default">Barman, another drink! <i class="fa fa-repeat"></i></button>
+      </div>
+
+      <div class="clearfix"></div>
+    </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/spin.js/spin.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="dreather.js"></script>
+  </body>
+</html>
