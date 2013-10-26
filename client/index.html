@@ -16,12 +16,23 @@
     <![endif]-->
 
     <style>
-      html {
-        background: url(http://st3.flashrolls.net/wallpaper/757/b14b21a5eae2607f6887c3283d069c31.jpg) no-repeat center center fixed;
+      .background-div {
+        position: fixed;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background: url(static/img/background.jpg) no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
+        filter: blur(4px);
+        -webkit-filter: blur(4px);
+        -moz-filter: blur(4px);
+        -o-filter: blur(4px);
+        -ms-filter: blur(4px);
+        filter: url(static/img/blur.svg#blur);
       }
 
       body {
@@ -79,19 +90,55 @@
         border: 0;
         height: 1px;
         background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
-        background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
-        background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
-        background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+        background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+        background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+        background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
       }
+
+@keyframes shake{
+    0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+    50% { transform: rotate(-5deg); -ms-transform: rotate(-5deg); -webkit-transform: rotate(-5deg); }
+    100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+}
+
+@-moz-keyframes shake{
+    0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+    50% { transform: rotate(-5deg); -ms-transform: rotate(-5deg); -webkit-transform: rotate(-5deg); }
+    100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+}
+
+@-webkit-keyframes shake {
+    0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+    33% { transform: rotate(5deg); -ms-transform: rotate(5deg); -webkit-transform: rotate(5deg); }
+    66% { transform: rotate(35deg); -ms-transform: rotate(35deg); -webkit-transform: rotate(35deg); }
+    100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+}
+
+.shake {
+    animation-name: shake;
+    animation-duration: 300ms;
+    animation-iteration-count: 3;
+    animation-timing-function: linear;
+
+    -moz-animation-name: shake;
+    -moz-animation-duration: 300ms;
+    -moz-animation-iteration-count: 3;
+    -moz-animation-timing-function: linear;
+
+    -webkit-animation-name: shake;
+    -webkit-animation-duration: 300ms;
+    -webkit-animation-iteration-count: 3;
+    -webkit-animation-timing-function: linear;
+}
     </style>
   </head>
   <body>
-
+    <div class="background-div"></div>
     <div class="container">
       <div class="row">
         <div class="col-md-8 col-md-offset-2 panel panel-default">
           <h1 class="margin-base-vertical text-center">
-            Dreather <i class="fa fa-glass rotate20"></i>
+            Dreather <i id="glass" class="fa fa-glass rotate20"></i>
             <p class="lead text-center">drinks for the weather!</p>
           </h1>
 

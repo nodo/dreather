@@ -43,7 +43,22 @@
       _.template($('#drink-template').html())
     );
 
-    $('#another-drink').on('click', function() { getDrink(); });
+    $('#another-drink')
+      .on('click', function() { getDrink(); })
+      .on('mouseover', function() {
+        var glass = $("#glass");
+        if (!glass.hasClass("shake")) {
+          glass.addClass("shake");
+        } else {
+          glass.css('animation-name', 'none');
+          glass.css('-moz-animation-name', 'none');
+          glass.css('-webkit-animation-name', 'none');
+
+          setTimeout(function() {
+            glass.css('-webkit-animation-name', 'shake');
+          }, 0);
+        }
+      });
   };
 
   $(function () {
