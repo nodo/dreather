@@ -1,12 +1,12 @@
 (function ($) {
   "use strict";
 
-  var urlParam = function(name){
+  var urlParam = function(name) {
     var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results)
       return results[1] || 0;
     return null;
-  }
+  };
 
   var target = 'suggest-drink';
   var targetDiv = $('#' + target);
@@ -42,11 +42,16 @@
       navigator.geolocation.getCurrentPosition(getDrinkForPosition, positionError);
     }
     else {
-      $('#' + target).text("Sorry, no location access :(");
+      getDrinkForPosition({coords: {latitude: 0, longitude: 0}});
     }
   };
 
   var getDrinkForPosition = function(position) {
+    window.history.pushState(
+      null, null,
+      window.location.href.split("?")[0] + "?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude
+    );
+
     $.get("gimme_drink/"+position.coords.latitude+"/"+position.coords.longitude)
       .done(function (data) {
         var showDrink = function(drink_index) {
@@ -92,12 +97,8 @@
 
   };
 
-  var positionError = function(err) {
-    if (err.code == 1) {
-      $('#' + target).text("Access to position data denied :( Please enable it!");
-    } else if (err.code == 2) {
-      $('#' + target).text("Your position is not available :(");
-    }
+  var positionError = function() {
+    getDrinkForPosition({coords: {latitude: 0, longitude: 0}});
   };
 
   $(function () {
