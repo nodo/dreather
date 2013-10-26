@@ -29,7 +29,7 @@
     spinner = new Spinner(spinnerOpts).spin(document.getElementById(target));
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(getDrinkForPosition);
+      navigator.geolocation.getCurrentPosition(getDrinkForPosition, positionError);
     }
     else {
       $('#' + target).text("Sorry, no location access :(");
@@ -59,6 +59,14 @@
           }, 0);
         }
       });
+  };
+
+  var positionError = function(err) {
+    if (err.code == 1) {
+      $('#' + target).text("Access to position data denied :( Please enable it!");
+    } else if (err.code == 2) {
+      $('#' + target).text("Your position is not available :(");
+    }
   };
 
   $(function () {
