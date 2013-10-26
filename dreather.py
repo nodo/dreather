@@ -9,13 +9,16 @@ app = bottle.Bottle()
 plugin = bottle.ext.sqlite.Plugin(dbfile='dreather.db')
 app.install(plugin)
 
+
 @app.route('/static/<filepath:path>')
 def server_static(filepath):
     return bottle.static_file(filepath, root='client')
 
+
 @app.route('/')
 def index():
     return bottle.static_file('index.html', root='client')
+
 
 @app.route('/gimme_drink/<lat>/<lon>')
 def gimme_drink(lat, lon, db):
@@ -31,27 +34,27 @@ def gimme_drink(lat, lon, db):
     else:
         if weather in weather_ranks:
             cocktails = db.execute(
-                'SELECT * from cocktails where min_temp<=:temp AND max_temp>=:temp\
-             AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
-                {'temp' : temp,
-                 'weather' : weather_ranks[weather]}
+                'SELECT * from cocktails where min_temp<=:temp AND max_temp>=:temp'
+                ' AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
+                {'temp': temp,
+                 'weather': weather_ranks[weather]}
             ).fetchall()
             sentence = db.execute(
-                'SELECT * from sentences where min_temp<=:temp AND max_temp>=:temp\
-             AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
-                {'temp' : temp,
-                 'weather' : weather_ranks[weather]}
+                'SELECT * from sentences where min_temp<=:temp AND max_temp>=:temp'
+                ' AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
+                {'temp': temp,
+                 'weather': weather_ranks[weather]}
             ).fetchone()["sentence"]
         else:
             cocktails = db.execute(
                 'SELECT * from cocktails where min_temp<=:temp AND max_temp>=:temp',
-                {'temp' : temp}
+                {'temp': temp}
             ).fetchall()
             sentence = db.execute(
-                'SELECT * from sentences where min_temp<=:temp AND max_temp>=:temp\
-             AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
-                {'temp' : temp,
-                 'weather' : weather_ranks[weather]}
+                'SELECT * from sentences where min_temp<=:temp AND max_temp>=:temp'
+                ' AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
+                {'temp': temp,
+                 'weather': weather_ranks[weather]}
             ).fetchone()["sentence"]
 
     if not cocktails:
@@ -62,8 +65,10 @@ def gimme_drink(lat, lon, db):
     result = map(dict, cocktails)
     shuffle(result)
 
+    bottle.response.content_type = 'application/json'
     return json.dumps({ "cocktails" : result,
                         "sentence" : sentence})
+
 
 def rank_to_png(arank):
     # return the name of an iamge corresponding to the rank_weather
@@ -119,5 +124,6 @@ def rank_to_png(arank):
         return rank_to_png[arank]
     else:
         return -1
+
 
 app.run(host='localhost', port=8080)

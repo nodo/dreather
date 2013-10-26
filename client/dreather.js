@@ -49,26 +49,40 @@
   var getDrinkForPosition = function(position) {
     console.log(position.coords.latitude + " " + position.coords.longitude);
 
-    targetDiv.html(
-      _.template($('#drink-template').html())
-    );
 
-    $('#another-drink')
-      .on('click', function() { getDrink(); })
-      .on('mouseover', function() {
-        var glass = $("#glass");
-        if (!glass.hasClass("shake")) {
-          glass.addClass("shake");
-        } else {
-          glass.css('animation-name', 'none');
-          glass.css('-moz-animation-name', 'none');
-          glass.css('-webkit-animation-name', 'none');
+    $.get("gimme_drink/"+position.coords.latitude+"/"+position.coords.longitude)
+      .done(function (data) {
+        var showDrink = function(drink_index) {
+          drink_index = drink_index % data.cocktails.length;
+          console.log("DRINK", data.cocktails[drink_index]);
+          targetDiv.html(
+            _.template($('#drink-template').html(), data.cocktails[drink_index])
+          );
 
-          setTimeout(function() {
-            glass.css('-webkit-animation-name', 'shake');
-          }, 0);
-        }
+          $('#another-drink')
+            .on('click', function() { showDrink(drink_index+1); })
+            .on('mouseover', function() {
+              var glass = $("#glass");
+              if (!glass.hasClass("shake")) {
+                glass.addClass("shake");
+              } else {
+                glass.css('animation-name', 'none');
+                glass.css('-moz-animation-name', 'none');
+                glass.css('-webkit-animation-name', 'none');
+
+                setTimeout(function() {
+                  glass.css('-webkit-animation-name', 'shake');
+                }, 0);
+              }
+            });
+        };
+
+        showDrink(0);
+      })
+      .fail(function() {
+        targetDiv.html("Something went terribly wrong :(");
       });
+
   };
 
   var positionError = function(err) {
@@ -81,5 +95,11 @@
 
   $(function () {
     getDrink();
+
+    $(document).keydown(function(e) {
+      if (e.keyCode == 13 || e.keyCode == 39) {
+        $("#another-drink").click();
+      }
+    });
   });
 })(jQuery);
