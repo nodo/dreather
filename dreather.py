@@ -22,6 +22,7 @@ def gimme_drink(lat, lon, db):
     response = requests.get(url.format(key, lat, lon))
     cocktails = []
 
+    sentence = "I have no idea about the weather but it's always time for a beer!"
     try:
         temp     = response.json()['current_observation']['temp_c']
         weather  = response.json()['current_observation']['weather']
@@ -35,11 +36,23 @@ def gimme_drink(lat, lon, db):
                 {'temp' : temp,
                  'weather' : weather_ranks[weather]}
             ).fetchall()
+            sentence = db.execute(
+                'SELECT * from sentences where min_temp<=:temp AND max_temp>=:temp\
+             AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
+                {'temp' : temp,
+                 'weather' : weather_ranks[weather]}
+            ).fetchone()["sentence"]
         else:
             cocktails = db.execute(
                 'SELECT * from cocktails where min_temp<=:temp AND max_temp>=:temp',
                 {'temp' : temp}
             ).fetchall()
+            sentence = db.execute(
+                'SELECT * from sentences where min_temp<=:temp AND max_temp>=:temp\
+             AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
+                {'temp' : temp,
+                 'weather' : weather_ranks[weather]}
+            ).fetchone()["sentence"]
 
     if not cocktails:
         cocktails = db.execute(
@@ -49,7 +62,8 @@ def gimme_drink(lat, lon, db):
     result = map(dict, cocktails)
     shuffle(result)
 
-    return json.dumps({ "cocktails" : result })
+    return json.dumps({ "cocktails" : result,
+                        "sentence" : sentence})
 
 def rank_to_png(arank):
     # return the name of an iamge corresponding to the rank_weather
