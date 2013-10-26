@@ -35,8 +35,6 @@ nosetests.xml
 .project
 .pydevproject
 
-# db
-*.db
 
 # bower
 bower_components
