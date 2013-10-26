@@ -9,9 +9,9 @@ app = bottle.Bottle()
 plugin = bottle.ext.sqlite.Plugin(dbfile='dreather.db')
 app.install(plugin)
 
-@app.route('/static/<filename>')
-def server_static(filename):
-    return bottle.static_file(filename, root='client/static')
+@app.route('/static/<filepath:path>')
+def server_static(filepath):
+    return bottle.static_file(filepath, root='client')
 
 @app.route('/')
 def index():
