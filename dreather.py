@@ -20,7 +20,7 @@ def server_static(filepath):
 def index():
     return bottle.static_file('index.html', root='client')
 
-@app.route('/pump_it_up/<id>')
+@app.post('/pump_it_up/<id>')
 def pump_it_up(id, db):
     try:
         db.execute( 'UPDATE cocktails\

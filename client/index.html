@@ -27,12 +27,12 @@
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        filter: blur(4px);
-        -webkit-filter: blur(4px);
-        -moz-filter: blur(4px);
-        -o-filter: blur(4px);
-        -ms-filter: blur(4px);
-        filter: url(static/img/blur.svg#blur);
+        /*filter: blur(4px);*/
+        /*-webkit-filter: blur(4px);*/
+        /*-moz-filter: blur(4px);*/
+        /*-o-filter: blur(4px);*/
+        /*-ms-filter: blur(4px);*/
+        /*filter: url(static/img/blur.svg#blur);*/
       }
 
       body {
@@ -62,6 +62,10 @@
 
       .panel {
         background-color: rgba(255, 255, 255, 0.9);
+      }
+
+      .margin-right-10 {
+        margin-right: 10px;
       }
 
       .margin-base-vertical {
@@ -99,41 +103,41 @@
         background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
       }
 
-@keyframes shake{
-    0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
-    50% { transform: rotate(-5deg); -ms-transform: rotate(-5deg); -webkit-transform: rotate(-5deg); }
-    100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
-}
+      @keyframes shake{
+        0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+        50% { transform: rotate(-5deg); -ms-transform: rotate(-5deg); -webkit-transform: rotate(-5deg); }
+        100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+      }
 
-@-moz-keyframes shake{
-    0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
-    50% { transform: rotate(-5deg); -ms-transform: rotate(-5deg); -webkit-transform: rotate(-5deg); }
-    100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
-}
+      @-moz-keyframes shake{
+        0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+        50% { transform: rotate(-5deg); -ms-transform: rotate(-5deg); -webkit-transform: rotate(-5deg); }
+        100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+      }
 
-@-webkit-keyframes shake {
-    0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
-    33% { transform: rotate(5deg); -ms-transform: rotate(5deg); -webkit-transform: rotate(5deg); }
-    66% { transform: rotate(35deg); -ms-transform: rotate(35deg); -webkit-transform: rotate(35deg); }
-    100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
-}
+      @-webkit-keyframes shake {
+        0% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+        33% { transform: rotate(5deg); -ms-transform: rotate(5deg); -webkit-transform: rotate(5deg); }
+        66% { transform: rotate(35deg); -ms-transform: rotate(35deg); -webkit-transform: rotate(35deg); }
+        100% { transform: rotate(20deg); -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); }
+      }
 
-.shake {
-    animation-name: shake;
-    animation-duration: 300ms;
-    animation-iteration-count: 2;
-    animation-timing-function: linear;
+      .shake {
+        animation-name: shake;
+        animation-duration: 300ms;
+        animation-iteration-count: 2;
+        animation-timing-function: linear;
 
-    -moz-animation-name: shake;
-    -moz-animation-duration: 300ms;
-    -moz-animation-iteration-count: 2;
-    -moz-animation-timing-function: linear;
+        -moz-animation-name: shake;
+        -moz-animation-duration: 300ms;
+        -moz-animation-iteration-count: 2;
+        -moz-animation-timing-function: linear;
 
-    -webkit-animation-name: shake;
-    -webkit-animation-duration: 300ms;
-    -webkit-animation-iteration-count: 2;
-    -webkit-animation-timing-function: linear;
-}
+        -webkit-animation-name: shake;
+        -webkit-animation-duration: 300ms;
+        -webkit-animation-iteration-count: 2;
+        -webkit-animation-timing-function: linear;
+      }
     </style>
   </head>
   <body>
@@ -163,8 +167,10 @@
     </div>
 
     <script type="text/template" id="drink-template">
-      <h3 class="text-center">Ehi, it's a bit cold in here! Cheer you up with a...</h3>
-      <h2 class="text-center drink-name margin-base-vertical"><%= name %></h2>
+      <h3 class="text-center"><%= sentence %>...</h3>
+      <h2 class="text-center drink-name margin-base-vertical">
+        <%= name %>
+      </h2>
 
       <div class="row">
         <div class="col-md-3 col-md-offset-1">
@@ -201,6 +207,11 @@
         <button id="another-drink" type="button" class="btn btn-default">Barman, another drink! <i class="fa fa-repeat"></i></button>
       </div>
 
+      <div class="pull-right margin-top-vertical">
+        <button id="thumbs-up" type="button" class="btn btn-default margin-right-10" data-drink-id="<%= id %>">
+          <span>Nice booze</span> <i class="fa fa-thumbs-o-up"></i>
+        </button>
+      </div>
       <div class="clearfix"></div>
     </script>
 

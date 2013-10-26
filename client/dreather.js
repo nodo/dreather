@@ -47,16 +47,15 @@
   };
 
   var getDrinkForPosition = function(position) {
-    console.log(position.coords.latitude + " " + position.coords.longitude);
-
-
     $.get("gimme_drink/"+position.coords.latitude+"/"+position.coords.longitude)
       .done(function (data) {
         var showDrink = function(drink_index) {
           drink_index = drink_index % data.cocktails.length;
-          console.log("DRINK", data.cocktails[drink_index]);
           targetDiv.html(
-            _.template($('#drink-template').html(), data.cocktails[drink_index])
+            _.template(
+              $('#drink-template').html(),
+              $.extend(data.cocktails[drink_index], {sentence: data.sentence})
+            )
           );
 
           $('#another-drink')
@@ -75,6 +74,14 @@
                 }, 0);
               }
             });
+
+          $('#thumbs-up').on('click', function() {
+            var $this = $(this);
+            $.post('/pump_it_up/' + $this.data('drink-id'), function() {
+              $this.addClass("btn-primary disabled");
+              $this.find("span").text("Voted");
+            });
+          });
         };
 
         showDrink(0);
