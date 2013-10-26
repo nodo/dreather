@@ -25,7 +25,7 @@ def pump_it_up(id, db):
     try:
         db.execute( 'UPDATE cocktails\
                      SET rank=rank+1\
-                     WHERE id=?', id)
+                     WHERE id=:id', {'id' : id })
     except sqlite3.ProgrammingError:
         pass
 
