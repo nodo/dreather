@@ -1,0 +1,4 @@
+bottle
+requests
+bottle-sqlite
+simplejson
