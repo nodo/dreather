@@ -56,7 +56,7 @@ def gimme_drink(lat, lon, db):
 
     if not cocktails:
         cocktails = db.execute(
-            'SELECT * from cocktails where name="beer"'
+            'SELECT * from cocktails where name="Beer"'
         ).fetchall()
 
     result = map(dict, cocktails)
