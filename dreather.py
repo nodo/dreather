@@ -1,4 +1,4 @@
-from bottle import *
+import bottle
 from settings import *
 from random import shuffle
 import requests
@@ -9,9 +9,13 @@ app = bottle.Bottle()
 plugin = bottle.ext.sqlite.Plugin(dbfile='dreather.db')
 app.install(plugin)
 
+@app.route('/static/<filename>')
+def server_static(filename):
+    return bottle.static_file(filename, root='client/static')
+
 @app.route('/')
 def index():
-    return 'Beer!'
+    return bottle.static_file('index.html', root='client')
 
 @app.route('/gimme_drink/<lat>/<lon>')
 def gimme_drink(lat, lon, db):
