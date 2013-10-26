@@ -1,6 +1,13 @@
 (function ($) {
   "use strict";
 
+  var urlParam = function(name){
+    var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results)
+      return results[1] || 0;
+    return null;
+  }
+
   var target = 'suggest-drink';
   var targetDiv = $('#' + target);
 
@@ -28,7 +35,10 @@
     targetDiv.empty();
     spinner = new Spinner(spinnerOpts).spin(document.getElementById(target));
 
-    if (navigator.geolocation) {
+    if (urlParam('lat') && urlParam('lon')) {
+      getDrinkForPosition({coords: {latitude: urlParam('lat'), longitude: urlParam('lon')}});
+    }
+    else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(getDrinkForPosition, positionError);
     }
     else {
