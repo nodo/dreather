@@ -1,5 +1,6 @@
 key = "85bb83e839691e89"
 url = "http://api.wunderground.com/api/{}/conditions/q/{},{}.json"
+station_url = "http://api.wunderground.com/api/{}/conditions/q/zmw:{}.json"
 
 weather_ranks = {
     'Heavy Thunderstorms with Hail' : 1,

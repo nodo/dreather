@@ -15,7 +15,6 @@ app.install(plugin)
 def server_static(filepath):
     return bottle.static_file(filepath, root='client')
 
-
 @app.route('/')
 def index():
     return bottle.static_file('index.html', root='client')
@@ -53,7 +52,7 @@ def random_dist(cocktails):
                 break
     return shuffled_cocktails
 
-@app.route('/gimme_drink/<lat>/<lon>')
+
 def gimme_drink(lat, lon, db):
     response = requests.get(url.format(key, lat, lon))
     cocktails = []
@@ -84,10 +83,8 @@ def gimme_drink(lat, lon, db):
                 {'temp': temp}
             ).fetchall()
             sentence = db.execute(
-                'SELECT * from sentences where min_temp<=:temp AND max_temp>=:temp'
-                ' AND min_weather_rank<=:weather AND max_weather_rank>=:weather',
-                {'temp': temp,
-                 'weather': weather_ranks[weather]}
+                'SELECT * from sentences where min_temp<=:temp AND max_temp>=:temp',
+                {'temp': temp }
             ).fetchone()["sentence"]
 
     if not cocktails:
@@ -101,6 +98,22 @@ def gimme_drink(lat, lon, db):
     bottle.response.content_type = 'application/json'
     return json.dumps({ "cocktails" : result,
                         "sentence" : sentence})
+
+@app.route('/gimme_drink/<station_code>')
+def gimme_drink_with_station(station_code, db):
+    response = requests.get(station_url.format(key, station_code))
+    try:
+        lat = response.json()['current_observation']['display_location']['latitude']
+        lon = response.json()['current_observation']['display_location']['longitude']
+    except KeyError:
+        lat = 0
+        lon = 0
+    return gimme_drink(lat, lon, db)
+
+
+@app.route('/gimme_drink/<lat>/<lon>')
+def gimme_drink_with_latlon(lat, lon, db):
+    return gimme_drink(lat, lon, db)
 
 
 def rank_to_png(arank):
