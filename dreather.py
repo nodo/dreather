@@ -56,6 +56,8 @@ def random_dist(cocktails):
 def gimme_drink(lat, lon, db):
     response = requests.get(url.format(key, lat, lon))
     cocktails = []
+    weather = "N/A"
+    temp = "N/A"
 
     sentence = "I have no idea about the weather but it's always time for a beer!"
     try:
@@ -97,7 +99,10 @@ def gimme_drink(lat, lon, db):
 
     bottle.response.content_type = 'application/json'
     return json.dumps({ "cocktails" : result,
-                        "sentence" : sentence})
+                        "sentence" : sentence,
+                        "weather" : weather,
+                        "temperature" : temp
+                    })
 
 @app.route('/gimme_drink/<station_code>')
 def gimme_drink_with_station(station_code, db):
