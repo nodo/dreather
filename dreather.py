@@ -58,8 +58,14 @@ def gimme_drink(lat, lon, db):
     cocktails = []
     weather = "N/A"
     temp = "N/A"
+    city = "N/A"
 
     sentence = "I have no idea about the weather but it's always time for a beer!"
+    try:
+        city = response.json()['current_observation']['display_location']['full']
+    except KeyError:
+        pass
+
     try:
         temp     = response.json()['current_observation']['temp_c']
         weather  = response.json()['current_observation']['weather']
@@ -101,7 +107,10 @@ def gimme_drink(lat, lon, db):
     return json.dumps({ "cocktails" : result,
                         "sentence" : sentence,
                         "weather" : weather,
-                        "temperature" : temp
+                        "temperature" : temp,
+                        "city" : city,
+                        "lat" : lat,
+                        "lon" : lon
                     })
 
 @app.route('/gimme_drink/<station_code>')
