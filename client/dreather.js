@@ -56,13 +56,18 @@
     $.get("gimme_drink/"+req_string)
       .done(function (data) {
         var showDrink = function(drink_index) {
-          drink_index = drink_index % data.cocktails.length;
           targetDiv.html(
             _.template(
               $('#drink-template').html(),
-              $.extend(data.cocktails[drink_index], {sentence: data.sentence})
+              $.extend(data.cocktails[drink_index % data.cocktails.length], {sentence: data.sentence})
             )
           );
+
+          targetDiv
+            .css("-webkit-filter", "blur(" + drink_index / 6.0 + "px)")
+            .css("-moz-filter", "blur(" + drink_index / 6.0 + "px)")
+            .css("-o-filter", "blur(" + drink_index / 6.0 + "px)")
+            .css("-ms-filter", "blur(" + drink_index / 6.0 + "px");
 
           $('#another-drink')
             .on('click', function() { showDrink(drink_index+1); })
